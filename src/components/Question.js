@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 function Question({ question, onAnswered }) {
-  const [timeRemaining, setTimeRemaining] = useState(10);
-
+  const [intervalemaining, setintervalemaining] = useState(10);
+  
+  useEffect(()=>{
+   const timer=setTimeout(()=>{
+    if(intervalemaining===0){
+      setintervalemaining(10)
+      onAnswered(false)
+    }
+    else {
+      setintervalemaining(intervalemaining-1)
+    }
+   },1000)
+  return ()=>clearTimeout(timer)
   // add useEffect code
+},[ intervalemaining,onAnswered])
 
   function handleAnswer(isCorrect) {
-    setTimeRemaining(10);
+    setintervalemaining(10);
     onAnswered(isCorrect);
   }
 
@@ -24,7 +36,7 @@ function Question({ question, onAnswered }) {
           </button>
         );
       })}
-      <h5>{timeRemaining} seconds remaining</h5>
+      <h5>{intervalemaining} seconds remaining</h5>
     </>
   );
 }
